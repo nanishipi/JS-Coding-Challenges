@@ -1,6 +1,6 @@
 "use strict";
 
-let message = document.querySelector(".message");
+// Variables
 let number = document.querySelector(".number");
 
 const checkBtn = document.querySelector(".check");
@@ -10,13 +10,24 @@ let randomNumber = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
 let highScore = document.querySelector(".highscore");
 
+// Changes text on the message field
+const displayMessage = (message) => {
+  document.querySelector(".message").textContent = message;
+};
+
+// Changes text on the score field
+const displayScore = (score) => {
+  document.querySelector(".score").textContent = score;
+};
+
+// Check event
 checkBtn.addEventListener("click", () => {
   const guess = document.querySelector(".guess").value;
 
   if (!guess) {
-    message.textContent = "You did not insert a guess!";
+    displayMessage("You did not insert a guess!");
   } else if (guess == randomNumber) {
-    message.textContent = "Correct Number!";
+    displayMessage("Correct Number!");
     document.querySelector("body").style.backgroundColor = "green";
     document.querySelector(".number").style.width = "30rem";
     number.textContent = randomNumber;
@@ -26,24 +37,26 @@ checkBtn.addEventListener("click", () => {
     }
   } else if (guess !== randomNumber) {
     if (score > 1) {
-      document.querySelector(".message").textContent =
-        guess > randomNumber ? "Try a lower number" : "Try a higher number";
+      displayMessage(
+        guess > randomNumber ? "Try a lower number" : "Try a higher number"
+      );
       score--;
-      document.querySelector(".score").textContent = score;
+      displayScore(score);
     } else {
-      message.textContent = "You lost the game!";
-      document.querySelector(".score").textContent = 0;
+      displayMessage("You lost the game!");
+      displayScore(0);
     }
   }
 });
 
+// Again event
 againBtn.addEventListener("click", () => {
-  message.textContent = "Start guessing...";
+  displayMessage("Start guessing...");
   randomNumber = Math.trunc(Math.random() * 20) + 1;
   number.textContent = "?";
   document.querySelector(".number").style.width = "15rem";
   document.querySelector("body").style.backgroundColor = "#222";
   score = 20;
-  document.querySelector(".score").textContent = score;
+  displayScore(score);
   document.querySelector(".guess").value = "";
 });
